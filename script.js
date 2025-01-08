@@ -24,6 +24,7 @@ function Gameboard() {
 
     function displayCell (cellValue) {
         const cellDiv = document.createElement("div")
+        let cellId = 0
         cellDiv.setAttribute("class", "cell")
         cellDiv.textContent = `${cellValue}`
         gameboardDisplay.appendChild(cellDiv)
@@ -42,7 +43,7 @@ function Gameboard() {
         console.log(getBoardValues())
     }
 
-    return { getBoard, selectCell, printBoard, getBoardValues, displayCell, displayBoard }
+    return { getBoard, selectCell, printBoard, getBoardValues, displayCell, displayBoard, gameboardDisplay }
 
 }
 
@@ -70,9 +71,8 @@ function gameController() {
 
     let playerOneName = "Player 1"
     let playerTwoName = "Player 2"
-
+    
     const board = Gameboard();
-    // board.displayBoard();
     
     const players = [
         {
@@ -94,9 +94,23 @@ function gameController() {
 
     const getActivePlayer = () => activePlayer;
 
+    function displayCellContent (cellDivs, cell) {
+        cell.textContent = `${getActivePlayer().token}`
+        console.log(cellDivs);
+        let cellRow = Math.floor(cellDivs.indexOf(cell) / 3);
+        let cellCol = Math.floor(cellDivs.indexOf(cell) % 3);
+        console.log(Math.floor(cellDivs.indexOf(cell) / 3), Math.floor(cellDivs.indexOf(cell) % 3));
+        makeTurn(cellRow, cellCol)
+    }
+
+
+
     const printNewTurn = () => {
         board.displayBoard();
         board.printBoard();
+        
+        const cellDivs = Array.from(board.gameboardDisplay.children)
+        cellDivs.map(cell => cell.addEventListener("click", () => {displayCellContent(cellDivs, cell);}))
         console.log(`${getActivePlayer().name}'s turn!`)
         playersTurnDiv.textContent = `${getActivePlayer().name}'s turn!`
     }
@@ -161,57 +175,11 @@ function gameController() {
         checkWinner()
         switchPlayer();
         printNewTurn();
-        // displaySelection();
     }
 
     printNewTurn();
-    // Display gameboard in DOM
-    function displaySelection () {
-        // const cells = document.querySelectorAll(".cell")
-        
-        // let cellIds = Array.from(cells).map(cell => cell.getAttribute("id").split("-"))
-        // console.log(cellIds)
 
-        
-        
-        boardValues = board.getBoardValues();
-        // boardValues.forEach(row => {
-        //     cellIds.forEach(cell => console.log(cell[0]))})
-
-        // boardValues.forEach(row => {
-        //     row.forEach(
-        //         cell => {
-        //             if (cell === 0) {
-        //                 gameboardDisplay.textContent = " "
-        //                 console.log("empty cell")
-        //             } else if (cell === 1) {
-        //                 gameboardDisplay.textContent = "X"
-        //                 console.log("X")
-        //             } else {
-        //                 gameboardDisplay.textContent = "O"
-        //                 console.log("O")
-        //             }
-        //         }
-        //     )
-        // });
-
-            // cells.forEach(
-            //     cell => cell.addEventListener("click", 
-            //         () => playerText(cell)
-            //     ))
-        
-        function playerText (cell) {
-            if (activePlayer.token === 1) {
-                cell.textContent = "X"
-            } else {
-                cell.textContent = "O"
-            }
-        }
-
-
-    }
-
-    return { makeTurn, getActivePlayer, switchPlayer, displaySelection };
+    return { makeTurn, getActivePlayer, switchPlayer };
 }
 
 
