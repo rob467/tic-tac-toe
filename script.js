@@ -88,14 +88,16 @@ function gameController() {
     ];
 
     const handleStartClick = () => {
-        players[0].name = playerOneInput.value;
-        players[1].name = playerTwoInput.value;
-        startGameDiv.classList.toggle("hidden");
-        gameDiv.classList.toggle("hidden");
-        printNewTurn();
+        if (playerOneInput.value !== "" && playerTwoInput.value !== "") {
+            players[0].name = playerOneInput.value;
+            players[1].name = playerTwoInput.value;
+            startGameDiv.classList.toggle("hidden");
+            gameDiv.classList.toggle("hidden");
+            printNewTurn();
         }
+    }
 
-    startBtn.addEventListener("click", () => handleStartClick());
+    startBtn.addEventListener("click", handleStartClick);
 
     let activePlayer = players[0]
     let gameOver = false
@@ -122,7 +124,7 @@ function gameController() {
         gameOver = false;
     }
 
-    resetBtn.addEventListener("click", () => handleResetClick())
+    resetBtn.addEventListener("click", handleResetClick)
 
     const printNewTurn = () => {
         board.displayBoard();

@@ -7,24 +7,32 @@
     <title>tic-tac-toe</title>
 </head>
 <body>
-    <div class="hero">
-        <h1>tic-tac-toe</h1>
-        <div class="start-game">
-            <form action="">
-                <label for="player-one">Player One:</label>
-                <input type="text" id="player-one" name="player-one" required>
-                <label for="player-two">Player Two:</label>
-                <input type="text" id="player-two" name="player-two" required>
-                <button type="button" id="start-btn">Start Game</button>
-            </form>
-        </div>
-        <div class="game hidden">
-            <div class="game-state">
+    <div class="wrapper">
+        <div class="hero">
+            <h1>tic-tac-toe</h1>
+            <div class="start-game">
+                <form action="" class="start-game-form">
+                        <div class="player-one">
+                            <label for="player-one">Player One:</label>
+                            <input type="text" id="player-one" name="player-one" required>
+                        </div>
+                        <div class="player-two">
+                            <label for="player-two">Player Two:</label>
+                            <input type="text" id="player-two" name="player-two" required>
+                        </div>
+                    <button type="button" id="start-btn">Start Game</button>
+                </form>
             </div>
-            <div class="gameboard">
+            <div class="game hidden">
+                <div class="game-state">
+                </div>
+                <div class="gameboard">
+                </div>
+                <div>
+                    <button id="reset-btn">Restart Game</button>
+                </div>
             </div>
-            <button id="reset-btn">Restart Game</button>
-        </div>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
