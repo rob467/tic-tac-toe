@@ -9,11 +9,21 @@
 <body>
     <div class="hero">
         <h1>tic-tac-toe</h1>
-        <div class="gameboard">
+        <div class="start-game">
+            <form action="">
+                <label for="player-one">Player One:</label>
+                <input type="text" id="player-one" name="player-one" required>
+                <label for="player-two">Player Two:</label>
+                <input type="text" id="player-two" name="player-two" required>
+                <button type="button" id="start-btn">Start Game</button>
+            </form>
         </div>
-        <div class="game-details">
-            <div class="players-turn"></div>
-            <div class="game-state"></div>
+        <div class="game hidden">
+            <div class="game-state">
+            </div>
+            <div class="gameboard">
+            </div>
+            <button id="reset-btn">Restart Game</button>
         </div>
         </div>
     </div>

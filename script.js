@@ -1,5 +1,5 @@
 // Set up 3 by 3 gameboard array in gameboard object
-function Gameboard() {
+function gameboard() {
     const rows = 3;
     const columns = 3;
     const gameboardDisplay = document.querySelector(".gameboard")
@@ -24,7 +24,6 @@ function Gameboard() {
 
     function displayCell (cellValue) {
         const cellDiv = document.createElement("div")
-        let cellId = 0
         cellDiv.setAttribute("class", "cell")
         cellDiv.textContent = `${cellValue}`
         gameboardDisplay.appendChild(cellDiv)
@@ -65,25 +64,38 @@ function Cell() {
 // Create game object to track the game, including player objects
 function gameController() {
 
-    const gameDetailsDiv = document.querySelector(".game-details")
-    const playersTurnDiv = document.querySelector(".players-turn");
+    const gameDiv = document.querySelector(".game");
     const gameStateDiv = document.querySelector(".game-state");
+    const startGameDiv = document.querySelector(".start-game");
+    const startBtn = document.querySelector("#start-btn");
+    const resetBtn = document.querySelector("#reset-btn");
+    const playerOneInput = document.querySelector("#player-one");
+    const playerTwoInput = document.querySelector("#player-two");
 
-    let playerOneName = "Player 1"
-    let playerTwoName = "Player 2"
-    
-    const board = Gameboard();
+    let board = gameboard();
     
     const players = [
         {
-            name: playerOneName,
-            token: "X"
+            name: "Player One",
+            token: "X",
+            roundWins: 0,
         },
         {
-            name: playerTwoName,
-            token: "O"
+            name: "Player Two",
+            token: "O",
+            roundWins: 0,
         }
     ];
+
+    const handleStartClick = () => {
+        players[0].name = playerOneInput.value;
+        players[1].name = playerTwoInput.value;
+        startGameDiv.classList.toggle("hidden");
+        gameDiv.classList.toggle("hidden");
+        printNewTurn();
+        }
+
+    startBtn.addEventListener("click", () => handleStartClick());
 
     let activePlayer = players[0]
     let gameOver = false
@@ -94,30 +106,34 @@ function gameController() {
 
     const getActivePlayer = () => activePlayer;
 
-    function displayCellContent (cellDivs, cell) {
+    function handleCellClick (cellDivs, cell) {
+        if (gameOver) return;
         cell.textContent = `${getActivePlayer().token}`
-        console.log(cellDivs);
         let cellRow = Math.floor(cellDivs.indexOf(cell) / 3);
         let cellCol = Math.floor(cellDivs.indexOf(cell) % 3);
-        console.log(Math.floor(cellDivs.indexOf(cell) / 3), Math.floor(cellDivs.indexOf(cell) % 3));
         makeTurn(cellRow, cellCol)
     }
 
+    const handleResetClick = () => {
+        startGameDiv.classList.toggle("hidden");
+        gameDiv.classList.toggle("hidden");
+        board = gameboard();
+        activePlayer = players[0];
+        gameOver = false;
+    }
 
+    resetBtn.addEventListener("click", () => handleResetClick())
 
     const printNewTurn = () => {
         board.displayBoard();
-        board.printBoard();
         
         const cellDivs = Array.from(board.gameboardDisplay.children)
-        cellDivs.map(cell => cell.addEventListener("click", () => {displayCellContent(cellDivs, cell);}))
-        console.log(`${getActivePlayer().name}'s turn!`)
-        playersTurnDiv.textContent = `${getActivePlayer().name}'s turn!`
+        cellDivs.forEach(cell => cell.addEventListener("click", () => {handleCellClick(cellDivs, cell);}))
+        gameStateDiv.textContent = `${getActivePlayer().name}'s turn!`
     }
 
     const gameOverTest = () =>
         {if (gameOver) {
-            gameDetailsDiv.removeChild(playersTurnDiv)
             return;
         }}
 
@@ -129,8 +145,7 @@ function gameController() {
             printNewTurn();
             return;
         }
-        // console.log(`${getActivePlayer().name} goes in row ${row}, column ${column}`)
-        // gameStateDiv.textContent = `${getActivePlayer().name} goes in row ${row}, column ${column}`
+        
         board.selectCell(getActivePlayer().token, row, column)
 
         // Check if game has been won:
@@ -172,20 +187,16 @@ function gameController() {
         };
 
         
-        checkWinner()
-        switchPlayer();
-        printNewTurn();
+        checkWinner();
+        if (!gameOver) {
+            switchPlayer();
+            printNewTurn();
+        }
     }
 
-    printNewTurn();
 
     return { makeTurn, getActivePlayer, switchPlayer };
 }
 
-
-// Create functions to allow user to click square for Selection
-// Allow users to input and display user names
-// Add start/restart game buttons
-// Display game result at end
 
 const game = gameController();

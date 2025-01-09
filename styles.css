@@ -10,6 +10,10 @@ body {
     width: 150px;
 }
 
+.start-game-v {
+    visibility: visible;
+}
+
 .cell {
     border: black solid 1px;
     width: 50px;
@@ -24,4 +28,12 @@ body {
 .cell:hover {
     cursor: pointer;
     background-color: lightgray;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.hidden {
+    visibility: hidden;
 }
