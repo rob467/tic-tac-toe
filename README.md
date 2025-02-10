@@ -5,4 +5,4 @@ The game can be played at this GitHub Pages link: https://rob467.github.io/tic-t
 
 Here's an example screenshot:
 
-![Screenshot of the tic-tac-toe game](https://github.com/rob467/tic-tac-toe/tic-tac-toe-screenshot.JPG)
+![Screenshot of the tic-tac-toe game](/tic-tac-toe-screenshot.JPG)
